@@ -4,7 +4,7 @@
 CXX := clang++
 CXXFLAGS := -std=c++14 -O2 -g -Wall -pedantic
 LIBS := -lsfml-system -lsfml-window -lsfml-graphics
-INCLUDES := 
+INCLUDES := -Iinclude/
 
 # Project directories
 SRCDIR := src
