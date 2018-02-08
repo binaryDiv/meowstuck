@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
-#include <nlohmann/json.hpp>
+
+#include "World.hpp"
 
 #include <algorithm>
 #include <iostream>
@@ -17,6 +18,13 @@ int main() {
 
 	// Control the framerate
 	window.setVerticalSyncEnabled(true);
+
+
+	// Load world file
+	World world;
+	world.loadFromFile("res/world.json");
+	//return 0;
+
 
 	// Load some textures
 	sf::Texture texture_cat, texture_empty, texture_block;

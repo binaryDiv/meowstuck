@@ -14,11 +14,11 @@ BINDIR := bin
 # Target variables
 TARGETNAME := meowstuck
 TARGET := $(BINDIR)/$(TARGETNAME)
-SOURCES := $(shell find $(SRCDIR) -type f -name *.cpp)
+SOURCES := $(shell find $(SRCDIR) -type f -name "*.cpp")
 OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.cpp=.o))
 CLEANDELETE :=
 
-HEADERS := $(shell find $(SRCDIR) -type f -name *.h)
+HEADERS := $(shell find $(SRCDIR) -type f -name "*.h" -or -name "*.hpp")
 SOURCEDEPS := $(HEADERS)
 
 # MAKE TARGETS
@@ -48,6 +48,7 @@ clean:
 
 run: $(TARGET)
 	@echo Running $(TARGET) ...
+	@echo
 	@$(TARGET)
 
 echoflags:

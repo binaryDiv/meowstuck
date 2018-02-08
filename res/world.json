@@ -1,0 +1,21 @@
+{
+	"title": "Meowstuck",
+
+	"tilesets": [
+		"set1.png",
+		"someotherset.png",
+		"sprites.png"
+	],
+
+	"rooms": {
+		"startroom": {
+			"foo": "bar"
+		},
+		"room1": {
+			"foo": "bar"
+		},
+		"room2": {
+			"foo": "bar"
+		}
+	}
+}
