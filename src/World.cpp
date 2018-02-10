@@ -21,6 +21,8 @@ World::World() {
 
 // Load world data from JSON file
 void World::loadFromFile(const std::string& filename) {
+	// TODO Better error handling (let this function throw Exceptions and handle them in main() maybe?)
+
 	// Open file stream
 	std::ifstream ifs (filename);
 
@@ -31,21 +33,38 @@ void World::loadFromFile(const std::string& filename) {
 
 	try {
 		// Read JSON data
-		json j;
-		ifs >> j;
+		json worldData;
+		ifs >> worldData;
 
-		// Some debug output
-		std::string worldTitle = j.value("title", "Unnamed");
-		std::cout << "Loaded world '" << worldTitle << "' with "
-		          << j["rooms"].size() << " rooms\n\n";
+		// Parse meta data
+		this->title = worldData.value("title", "Unnamed");
+		
+		// XXX Debug output
+		std::cout << "Loading world '" << this->title << "' with "
+		          << worldData["rooms"].size() << " rooms\n";
 
-		for (auto& el : j["rooms"].items()) {
-			std::cout << "Room '" << el.key() << "': " << el.value() << "\n";
+		// Parse rooms
+		for (auto& roomItem : worldData["rooms"].items()) {
+			// Get room name and room data
+			std::string roomName = roomItem.key();
+			json roomData = roomItem.value();
+
+			// XXX Debug output
+			std::cout << "\nCreating room '" << roomName << "' of size " << roomData["width"]
+			          << "x" << roomData["height"] << "\n";
+
+			// Create new Room object and fill it with room data
+			Room newRoom (roomName, roomData["width"], roomData["height"]);
+
+			// TODO Set tileset
+			// newRoom.setTileset( ... get tileset ...);
+
+			// Parse tile data to sprites
+			newRoom.loadTileData(roomData["tiledata"]);
+
+			// Insert new room into room map
+			rooms[roomName] = std::move(newRoom);
 		}
-
-		// Dump JSON data for debugging
-		std::cout << "\nJSON data:\n";
-		std::cout << j.dump(4) << std::endl;
 	}
 	catch (json::parse_error& e) {
 		std::cerr << "[World::loadFromFile] ERROR: " << e.what() << std::endl;

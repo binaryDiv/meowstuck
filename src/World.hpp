@@ -1,7 +1,10 @@
-#ifndef WORLD_H_
-#define WORLD_H_
+#ifndef WORLD_HPP_
+#define WORLD_HPP_
 
 #include <string>
+#include <map>
+
+#include "Room.hpp"
 
 class World {
 public:
@@ -23,7 +26,19 @@ public:
 	// Load world data from JSON file
 	void loadFromFile(const std::string& filename);
 
+
+	/*******************************************************************
+	 * World meta data
+	 *******************************************************************/
+	// World title
+	std::string title;
+
 private:
+	/*******************************************************************
+	 * World content
+	 *******************************************************************/
+	// List of rooms
+	std::map<std::string, Room> rooms;
 };
 
-#endif /* WORLD_H_ */
+#endif /* WORLD_HPP_ */

@@ -14,7 +14,7 @@ const int GRID_SIZE     = 32;
 
 int main() {
 	// Create main window
-	sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_WIDTH), "Meowstuck");
+	sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_WIDTH), "...");
 
 	// Control the framerate
 	window.setVerticalSyncEnabled(true);
@@ -23,6 +23,9 @@ int main() {
 	// Load world file
 	World world;
 	world.loadFromFile("res/world.json");
+
+	window.setTitle(world.title);
+
 	//return 0;
 
 
