@@ -8,7 +8,7 @@ A small 2D tile based RPG. Probably.
    
 2. Clone the repository:
    ```
-   git clone git@github.com:binaryDiv/meowstuck.git
+   git clone https://github.com/binaryDiv/meowstuck.git
    ```
    
 3. By default the Makefile uses `clang++` as the C++ compiler. If you don't have clang installed, just change the `CXX` variable

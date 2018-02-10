@@ -3,7 +3,7 @@
 # C++ flags
 CXX := clang++
 CXXFLAGS := -std=c++14 -O2 -g -Wall -pedantic
-LIBS := -lsfml-system -lsfml-window -lsfml-graphics
+LIBS := -lsfml-graphics -lsfml-window -lsfml-system
 INCLUDES := -Iinclude/
 
 # Project directories
@@ -39,7 +39,7 @@ $(BUILDDIR)/%.o: $(SRCDIR)/%.cpp $(HEADERS)
 $(TARGET): $(OBJECTS)
 	@mkdir -p $(BINDIR)
 	@#echo '$(CXX) $$(LIBS) -o $(TARGET) $(OBJECTS)'
-	$(CXX) $(LIBS) -o $(TARGET) $(OBJECTS)
+	$(CXX) -o $(TARGET) $(OBJECTS) $(LIBS)
 
 # Clean generated files
 clean:
