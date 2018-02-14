@@ -41,7 +41,7 @@ public:
 	 *******************************************************************/
 	// Room name/ID
 	std::string name;
-	
+
 	// Room size
 	int getWidth();
 	int getHeight();
@@ -55,6 +55,11 @@ public:
 	 *******************************************************************/
 	// Tiles: field of sprites
 	SpriteMatrix tileField;
+
+//private:
+	// XXX JUST FOR TESTING PURPOSES
+	// Static example textures
+	sf::Texture texture_cat, texture_empty, texture_block;
 };
 
 

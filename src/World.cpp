@@ -53,17 +53,14 @@ void World::loadFromFile(const std::string& filename) {
 			std::cout << "\nCreating room '" << roomName << "' of size " << roomData["width"]
 			          << "x" << roomData["height"] << "\n";
 
-			// Create new Room object and fill it with room data
-			Room newRoom (roomName, roomData["width"], roomData["height"]);
+			// Create new Room object and insert it into room map
+			rooms[roomName] = Room (roomName, roomData["width"], roomData["height"]);
 
 			// TODO Set tileset
 			// newRoom.setTileset( ... get tileset ...);
 
 			// Parse tile data to sprites
-			newRoom.loadTileData(roomData["tiledata"]);
-
-			// Insert new room into room map
-			rooms[roomName] = std::move(newRoom);
+			rooms[roomName].loadTileData(roomData["tiledata"]);
 		}
 	}
 	catch (json::parse_error& e) {

@@ -21,6 +21,13 @@ SpriteMatrix::SpriteMatrix(int width_, int height_) :
 	// Allocate array of sprites (simulate a 2D array by mapping x/y coordinates
 	// to y*width+x)
 	sprites = new sf::Sprite[width*height];
+
+	// Position sprites on grid
+	for (int y = 0; y < height; y++) {
+		for (int x = 0; x < width; x++) {
+			sprites[y*width + x].setPosition(GRID_SIZE*x, GRID_SIZE*y);
+		}
+	}
 }
 
 // Destructor

@@ -41,6 +41,10 @@ public:
 	int width;
 	int height;
 
+	// Tile grid size
+	// TODO make this variable somehow
+	const int GRID_SIZE = 32;
+
 private:
 	// Sprite field
 	sf::Sprite* sprites;

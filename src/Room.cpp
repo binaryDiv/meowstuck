@@ -18,6 +18,14 @@ Room::Room(const std::string& name, int width, int height) {
 
 	// Create tile field
 	this->tileField = SpriteMatrix(width, height);
+
+	// XXX JUST FOR TESTING PURPOSES
+	// Static example textures
+	if (   !texture_cat.loadFromFile("res/cat.png")
+		|| !texture_empty.loadFromFile("res/empty.png")
+		|| !texture_block.loadFromFile("res/block.png") ) {
+		throw std::runtime_error("Loading textures failed");
+	}
 }
 
 
@@ -158,6 +166,11 @@ void Room::setTile(int x, int y, int tileID) {
 	std::cout << "set tile " << tileID << " at " << x << "," << y << std::endl;
 
 	// Get Sprite
-	// TODO
+	sf::Sprite& sprite = tileField.getSprite(x, y);
+
+	// XXX Static textures for testing
+	sf::Texture& tex = (tileID == 0 ? texture_empty :
+						tileID == 1 ? texture_block : texture_cat);
+	sprite.setTexture(tex);
 }
 
