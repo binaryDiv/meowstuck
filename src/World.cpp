@@ -82,7 +82,10 @@ void World::loadFromFile(const std::string& filename) {
 
 // Adds and loads a tileset (throws exception if tileset already exists)
 Tileset& World::loadTileset(const std::string& tilesetName) {
-	// TODO check if already exists -> exception
+	// Check if key already exists
+	if (tilesets.count(tilesetName) > 0) {
+		throw std::runtime_error("Tileset '" + tilesetName + "' already exists in map");
+	}
 
 	// Create new Tileset object and insert it into tilesets map
 	tilesets[tilesetName] = Tileset {};
@@ -96,15 +99,22 @@ Tileset& World::loadTileset(const std::string& tilesetName) {
 
 // Gets a tileset by name (throws exception if tileset does not exist)
 Tileset& World::getTileset(const std::string& tilesetName) {
-	// TODO check if exists
-
-	// Return reference to tileset
-	return tilesets[tilesetName];
+	// Check if tileset exists (std::map::at will throw an exception otherwise)
+	try {
+		// Return reference to tileset
+		return tilesets.at(tilesetName);
+	}
+	catch (std::out_of_range& e) {
+		throw std::runtime_error("Tileset '" + tilesetName + "' not found in map of tilesets");
+	}
 }
 
 // Adds and loads a room (throws exception if room already exists)
 Room& World::loadRoom(const std::string& roomName, json& roomData) {
-	// TODO check if already exists -> exception
+	// Check if key already exists
+	if (rooms.count(roomName) > 0) {
+		throw std::runtime_error("A room called '" + roomName + "' already exists in map");
+	}
 
 	// Create new Room object and insert it into rooms map
 	rooms[roomName] = Room (roomName, roomData["width"], roomData["height"]);
@@ -125,9 +135,13 @@ Room& World::loadRoom(const std::string& roomName, json& roomData) {
 
 // Gets a room by name (throws exception if room does not exist)
 Room& World::getRoom(const std::string& roomName) {
-	// TODO check if exists
-
-	// Return reference to room
-	return rooms[roomName];
+	// Check if room exists (std::map::at will throw an exception otherwise)
+	try {
+		// Return reference to room
+		return rooms.at(roomName);
+	}
+	catch (std::out_of_range& e) {
+		throw std::runtime_error("Room '" + roomName + "' does not exist");
+	}
 }
 
