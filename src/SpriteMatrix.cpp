@@ -1,11 +1,11 @@
 #include "SpriteMatrix.hpp"
 
-#include <iostream>
-#include <SFML/Graphics.hpp>
+#include <stdexcept>
 
 /*******************************************************************
  * Construction and destruction
  *******************************************************************/
+
 // Default constructor
 SpriteMatrix::SpriteMatrix() :
 	width {0},
@@ -77,6 +77,7 @@ SpriteMatrix& SpriteMatrix::operator=(SpriteMatrix&& other) {
 /*******************************************************************
  * Getters and setters
  *******************************************************************/
+
 // Get Sprite at a certain position. Throws std::out_of_range exception if
 // outside of matrix boundaries.
 sf::Sprite& SpriteMatrix::getSprite(int x, int y) {
@@ -97,19 +98,20 @@ sf::Sprite& SpriteMatrix::getSprite(int x, int y) {
 // Set Sprite at a certain position in the matrix and update the Sprite's position
 // accordingly. Overwrite the existing Sprite (if any).
 // Throws std::out_of_range exception if outside of matrix boundaries.
-void SpriteMatrix::setSprite(int x, int y, sf::Sprite newSprite) {
-	// Transform x,y coordinates to array index
-	int index = y*width + x;
-
-	// Check if index is in array boundaries
-	if (index >= width*height) {
-		// TODO Test this
-		std::string e ("Coordinates" + std::to_string(x) + ", " + std::to_string(y)
-			+ " are out of SpriteMatrix boundaries");
-		throw std::out_of_range(e);
-	}
-
-	sprites[index] = newSprite;
-}
+// TODO I don't think we need this function, see header file.
+//void SpriteMatrix::setSprite(int x, int y, sf::Sprite newSprite) {
+//	// Transform x,y coordinates to array index
+//	int index = y*width + x;
+//
+//	// Check if index is in array boundaries
+//	if (index >= width*height) {
+//		// TODO Test this
+//		std::string e ("Coordinates" + std::to_string(x) + ", " + std::to_string(y)
+//			+ " are out of SpriteMatrix boundaries");
+//		throw std::out_of_range(e);
+//	}
+//
+//	sprites[index] = newSprite;
+//}
 
 

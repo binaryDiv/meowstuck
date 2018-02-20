@@ -26,7 +26,7 @@ int main() {
 
 	// Get a reference to a room
 	// TODO Read name of start room from world data
-	Room& currentRoom = world.rooms["startroom"];
+	Room& currentRoom = world.getRoom("startroom");
 
 	//return 0;
 

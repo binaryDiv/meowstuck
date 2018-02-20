@@ -5,6 +5,7 @@
 #include <nlohmann/json.hpp>
 
 #include "SpriteMatrix.hpp"
+#include "Tileset.hpp"
 
 using json = nlohmann::json;
 
@@ -29,11 +30,11 @@ public:
 	// Parse tile data from a JSON array of strings and create sprite field
 	void loadTileData(json& tileData);
 
+	// Set tileset (as a pointer)
+	void setTileset(Tileset* tileset);
+
 	// Set tile at a specific position to a tile referenced by its ID
 	void setTile(int x, int y, int tileID);
-
-	// TODO Set tileset
-	// void setTileset(Tileset& tileset);
 
 
 	/*******************************************************************
@@ -46,20 +47,17 @@ public:
 	int getWidth();
 	int getHeight();
 
-	// Tileset name
-	std::string tilesetName;
+private:
+	// Pointer to tileset
+	Tileset* roomTileset = nullptr;
 
 
 	/*******************************************************************
 	 * Room content
 	 *******************************************************************/
+public:
 	// Tiles: field of sprites
 	SpriteMatrix tileField;
-
-//private:
-	// XXX JUST FOR TESTING PURPOSES
-	// Static example textures
-	sf::Texture texture_cat, texture_empty, texture_block;
 };
 
 

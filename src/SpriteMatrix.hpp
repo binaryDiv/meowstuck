@@ -1,7 +1,6 @@
 #ifndef SPRITEMATRIX_HPP_
 #define SPRITEMATRIX_HPP_
 
-#include <stdexcept>
 #include <SFML/Graphics.hpp>
 
 class SpriteMatrix {
@@ -31,7 +30,8 @@ public:
 	// accordingly. Overwrite the existing Sprite (if any).
 	// Throws std::out_of_range exception if outside of matrix boundaries.
 	// TODO Is this function necessary or can we also set sprite via getSprite() = sprite?
-	void setSprite(int x, int y, sf::Sprite newSprite);
+	// I don't think we need it.
+	//void setSprite(int x, int y, sf::Sprite newSprite);
 
 
 	/*******************************************************************

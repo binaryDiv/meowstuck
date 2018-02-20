@@ -1,6 +1,5 @@
 #include "Room.hpp"
 
-#include <iostream>
 #include <nlohmann/json.hpp>
 
 using json = nlohmann::json;
@@ -18,14 +17,6 @@ Room::Room(const std::string& name, int width, int height) {
 
 	// Create tile field
 	this->tileField = SpriteMatrix(width, height);
-
-	// XXX JUST FOR TESTING PURPOSES
-	// Static example textures
-	if (   !texture_cat.loadFromFile("res/cat.png")
-		|| !texture_empty.loadFromFile("res/empty.png")
-		|| !texture_block.loadFromFile("res/block.png") ) {
-		throw std::runtime_error("Loading textures failed");
-	}
 }
 
 
@@ -68,8 +59,8 @@ void Room::loadTileData(json& tileData) {
 		// Reset x (column) coordinate
 		x = 0;
 
+		// Get string from JSON object
 		std::string rowStr = rowData;
-		std::cout << "Tile row: " << rowStr << "\n";
 
 		// State variables
 		int tileID = 0;
@@ -161,16 +152,17 @@ void Room::loadTileData(json& tileData) {
 	}
 }
 
+// Set tileset (as a pointer)
+void Room::setTileset(Tileset* tileset) {
+	roomTileset = tileset;
+}
+
 // Set tile at a specific position to a tile referenced by its ID
 void Room::setTile(int x, int y, int tileID) {
-	std::cout << "set tile " << tileID << " at " << x << "," << y << std::endl;
-
 	// Get Sprite
 	sf::Sprite& sprite = tileField.getSprite(x, y);
 
-	// XXX Static textures for testing
-	sf::Texture& tex = (tileID == 0 ? texture_empty :
-						tileID == 1 ? texture_block : texture_cat);
-	sprite.setTexture(tex);
+	// Set Sprite's texture and texture rect using the room's tileset
+	roomTileset->setSpriteToTile(sprite, tileID);
 }
 
