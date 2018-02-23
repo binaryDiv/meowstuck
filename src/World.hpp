@@ -6,6 +6,7 @@
 
 #include "Room.hpp"
 #include "Tileset.hpp"
+#include "SpriteEntity.hpp"
 
 class World {
 public:
@@ -39,6 +40,9 @@ public:
 	// Gets a room by name (throws exception if room does not exist)
 	Room& getRoom(const std::string& roomName);
 
+	// Get player SpriteEntity
+	SpriteEntity& getPlayer();
+
 
 	/*******************************************************************
 	 * World meta data
@@ -56,6 +60,20 @@ private:
 
 	// List of tilesets
 	std::map<std::string, Tileset> tilesets;
+
+	// Player SpriteEntity
+	SpriteEntity playerEntity;
 };
+
+
+/*******************************************************************
+ * Inline methods
+ *******************************************************************/
+
+// Get player SpriteEntity
+inline SpriteEntity& World::getPlayer() {
+	return playerEntity;
+}
+
 
 #endif /* WORLD_HPP_ */

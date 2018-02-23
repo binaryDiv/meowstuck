@@ -69,6 +69,26 @@ void World::loadFromFile(const std::string& filename) {
 			// Create, load and add new room
 			loadRoom(roomName, roomData);
 		}
+
+		// Parse player data
+		{
+			// Get player data
+			auto& playerData = worldData["player"];
+
+			// Debug output
+			std::cout << "Initializing player: position (" << playerData["startx"] << ","
+			          << playerData["starty"] << "), sprite: " << playerData["sprite"] << "\n";
+
+			// Create player entity
+			playerEntity = SpriteEntity (playerData["startroom"], playerData["startx"], playerData["starty"]);
+
+			// Get tileset and tile index (simple JSON array)
+			Tileset& playerTileset = getTileset(playerData["sprite"][0]);
+			int playerTileIndex = playerData["sprite"][1];
+
+			// Set player sprite (JSON: array with tileset name and tile index)
+			playerTileset.setSpriteToTile(playerEntity.getSprite(), playerTileIndex);
+		}
 	}
 	catch (json::parse_error& e) {
 		std::cerr << "[World::loadFromFile] ERROR: " << e.what() << std::endl;

@@ -24,9 +24,11 @@ int main() {
 	// Set window title to world's title
 	window.setTitle(world.title);
 
-	// Get a reference to a room
-	// TODO Read name of start room from world data
-	Room& currentRoom = world.getRoom("startroom");
+	// Get a reference to the player entity
+	SpriteEntity& playerEntity = world.getPlayer();
+
+	// Get a reference to the current room
+	Room& currentRoom = world.getRoom(playerEntity.roomName);
 
 	//return 0;
 
@@ -81,6 +83,9 @@ int main() {
 				window.draw(currentRoom.tileField.getSprite(x, y));
 			}
 		}
+
+		// Draw player sprite
+		window.draw(playerEntity.getSprite());
 
 		// Update the window
 		window.display();
