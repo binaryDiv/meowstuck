@@ -34,14 +34,22 @@ public:
 	// Run game loop
 	void run();
 
-	// Process events
-	void processEvents();
-
 	// Update game (called every frame)
 	void update();
 
 	// Draw game (called every frame)
 	void draw();
+
+
+	/*******************************************************************
+	 * Event processing, input handling
+	 *******************************************************************/
+
+	// Process events
+	void processEvents();
+
+	// Update screen dimensions on window resize
+	void onWindowResize(int newWidth, int newHeight);
 
 
 	/*******************************************************************

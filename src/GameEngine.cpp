@@ -61,47 +61,6 @@ void GameEngine::run() {
 		draw();
 	}
 }
-
-// Process events
-void GameEngine::processEvents() {
-	sf::Event event;
-
-	// Poll events
-	while (window.pollEvent(event)) {
-		switch (event.type) {
-			// Close window -> exit
-			case sf::Event::Closed:
-				window.close();
-				break;
-			
-			// Resize window -> rescale view to keep aspect ratio
-			case sf::Event::Resized:
-				{
-					int newWidth = event.size.width;
-					int newHeight = event.size.height;
-
-					std::cout << "new width: " << newWidth << ", height: " << newHeight << std::endl;
-
-					// Create new view with the size of the screen
-					sf::View resizedView (
-						sf::Vector2f(screenWidth / 2, screenHeight / 2),
-						sf::Vector2f(newWidth, newHeight)
-					);
-
-					// Zoom view without stretching
-					resizedView.zoom(std::max(screenWidth / (float) newWidth, screenHeight / (float) newHeight));
-
-					// Set view
-					window.setView(resizedView);
-				}
-				break;
-
-			default:
-				break;
-		}
-	}
-}
-
 // Update game (called every frame)
 void GameEngine::update() {
 	// TODO do something?
@@ -131,5 +90,48 @@ void GameEngine::draw() {
 
 	// Update the window
 	window.display();
+}
+
+
+/*******************************************************************
+ * Event processing, input handling
+ *******************************************************************/
+
+// Process events
+void GameEngine::processEvents() {
+	sf::Event event;
+
+	// Poll events
+	while (window.pollEvent(event)) {
+		switch (event.type) {
+			// Close window -> exit
+			case sf::Event::Closed:
+				window.close();
+				break;
+
+			// Resize window -> rescale view to keep aspect ratio
+			case sf::Event::Resized:
+				onWindowResize(event.size.width, event.size.height);
+				break;
+
+			default:
+				break;
+		}
+	}
+}
+
+// Update screen dimensions on window resize
+void GameEngine::onWindowResize(int newWidth, int newHeight) {
+	// Create new view with the size of the screen
+	sf::View resizedView (
+		sf::Vector2f(screenWidth / 2, screenHeight / 2),
+		sf::Vector2f(newWidth, newHeight)
+	);
+
+	// Zoom view without stretching
+	resizedView.zoom(std::max(screenWidth / (float) newWidth, screenHeight / (float) newHeight));
+
+	// Set view
+	window.setView(resizedView);
 }
 
