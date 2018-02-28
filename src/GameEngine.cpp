@@ -24,6 +24,9 @@ GameEngine::GameEngine(int screenWidth_, int screenHeight_) :
 
 	// Control the framerate
 	window.setVerticalSyncEnabled(true);
+
+	// Disable key repetition
+	window.setKeyRepeatEnabled(false);
 }
 
 
@@ -114,6 +117,11 @@ void GameEngine::processEvents() {
 				onWindowResize(event.size.width, event.size.height);
 				break;
 
+			// Key pressed -> do stuff
+			case sf::Event::KeyPressed:
+				onKeyPressed(event.key);
+				break;
+
 			default:
 				break;
 		}
@@ -133,5 +141,39 @@ void GameEngine::onWindowResize(int newWidth, int newHeight) {
 
 	// Set view
 	window.setView(resizedView);
+}
+
+// Handle key presses
+void GameEngine::onKeyPressed(sf::Event::KeyEvent& keyEvent) {
+	// Get a reference to the player entity
+	SpriteEntity& playerEntity = world.getPlayer();
+
+	// Check what key has been pressed
+
+	// Player movement (WASD)
+	switch (keyEvent.code) {
+		case sf::Keyboard::W:
+			// Move up
+			playerEntity.setPosition(playerEntity.getX(), playerEntity.getY() - 1);
+			break;
+
+		case sf::Keyboard::S:
+			// Move down
+			playerEntity.setPosition(playerEntity.getX(), playerEntity.getY() + 1);
+			break;
+
+		case sf::Keyboard::A:
+			// Move left
+			playerEntity.setPosition(playerEntity.getX() - 1, playerEntity.getY());
+			break;
+
+		case sf::Keyboard::D:
+			// Move right
+			playerEntity.setPosition(playerEntity.getX() + 1, playerEntity.getY());
+			break;
+
+		default:
+			break;
+	}
 }
 

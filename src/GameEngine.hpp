@@ -51,6 +51,9 @@ public:
 	// Update screen dimensions on window resize
 	void onWindowResize(int newWidth, int newHeight);
 
+	// Handle key presses
+	void onKeyPressed(sf::Event::KeyEvent& keyEvent);
+
 
 	/*******************************************************************
 	 * Window and graphics stuff
