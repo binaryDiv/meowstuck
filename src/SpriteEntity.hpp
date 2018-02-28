@@ -4,6 +4,8 @@
 #include <string>
 #include <SFML/Graphics.hpp>
 
+#include "Room.hpp"
+
 class SpriteEntity {
 public:
 	/*******************************************************************
@@ -31,6 +33,15 @@ public:
 
 	// Set position in room (will update the Sprite's position)
 	void setPosition(int newX, int newY);
+
+
+	/*******************************************************************
+	 * Sprite movement
+	 *******************************************************************/
+	// Move the sprite if possible. Takes a Room reference to check for collisions and
+	// room boundaries. Returns true if movement was successful.
+	// TODO move this into a separate PlayerEntity class
+	bool moveBy(int dx, int dy, Room& room);
 
 
 	/*******************************************************************

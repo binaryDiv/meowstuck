@@ -26,7 +26,7 @@ GameEngine::GameEngine(int screenWidth_, int screenHeight_) :
 	window.setVerticalSyncEnabled(true);
 
 	// Disable key repetition
-	window.setKeyRepeatEnabled(false);
+	window.setKeyRepeatEnabled(true);
 }
 
 
@@ -148,28 +148,31 @@ void GameEngine::onKeyPressed(sf::Event::KeyEvent& keyEvent) {
 	// Get a reference to the player entity
 	SpriteEntity& playerEntity = world.getPlayer();
 
+	// Get a reference to the current room
+	Room& currentRoom = world.getRoom(playerEntity.roomName);
+
 	// Check what key has been pressed
 
 	// Player movement (WASD)
 	switch (keyEvent.code) {
 		case sf::Keyboard::W:
 			// Move up
-			playerEntity.setPosition(playerEntity.getX(), playerEntity.getY() - 1);
+			playerEntity.moveBy(0, -1, currentRoom);
 			break;
 
 		case sf::Keyboard::S:
 			// Move down
-			playerEntity.setPosition(playerEntity.getX(), playerEntity.getY() + 1);
+			playerEntity.moveBy(0, 1, currentRoom);
 			break;
 
 		case sf::Keyboard::A:
 			// Move left
-			playerEntity.setPosition(playerEntity.getX() - 1, playerEntity.getY());
+			playerEntity.moveBy(-1, 0, currentRoom);
 			break;
 
 		case sf::Keyboard::D:
 			// Move right
-			playerEntity.setPosition(playerEntity.getX() + 1, playerEntity.getY());
+			playerEntity.moveBy(1, 0, currentRoom);
 			break;
 
 		default:
