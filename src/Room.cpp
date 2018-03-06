@@ -172,13 +172,33 @@ void Room::setTile(int x, int y, int tileID) {
 	roomTileset->setSpriteToTile(sprite, tileID);
 }
 
+// Adds a teleport (room coordinates -> destination room + coordinates).
+// Overwrites existing teleports at the same position.
+void Room::addTeleport(CoordXY fromXY, CoordRoomXY toRoomXY) {
+	// Set teleport (overwrite existing one).
+	teleports[fromXY] = toRoomXY;
+}
+
 
 /*******************************************************************
- * Collision detection
+ * Collision detection and events
  *******************************************************************/
 // Check if position is walkable
 bool Room::isTileWalkable(int x, int y) {
 	// Check if tile is solid (i.e. not walkable)
 	return !tileField.getTileInfo(x, y).isSolid();
+}
+
+// Checks for teleport at specific position
+bool Room::hasTeleportAt(int x, int y) {
+	// Check if key exists
+	return (teleports.count(CoordXY(x, y)) > 0);
+}
+
+// Gets teleport destination
+CoordRoomXY Room::getTeleportDestinationFrom(int x, int y) {
+	// Return destination
+	// TODO error if not existant?
+	return teleports[CoordXY(x, y)];
 }
 

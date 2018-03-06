@@ -149,6 +149,19 @@ Room& World::loadRoom(const std::string& roomName, json& roomData) {
 	// Parse tile data to sprites
 	room.loadTileData(roomData["tiledata"]);
 
+	// Parse teleports
+	for (auto& teleportItem : roomData["teleports"]) {
+		// Get from and destination coordinates
+		CoordXY fromXY {teleportItem[0], teleportItem[1]};
+		CoordRoomXY destRXY {teleportItem[2], teleportItem[3], teleportItem[4]};
+
+		std::cout << "Adding teleport from " << fromXY.first << "," << fromXY.second << " to room "
+			<< destRXY.room << " " << destRXY.x << "," << destRXY.y << std::endl;
+
+		// Add teleport to room
+		room.addTeleport(fromXY, destRXY);
+	}
+
 	// Return reference to room
 	return room;
 }

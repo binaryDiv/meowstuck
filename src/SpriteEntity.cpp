@@ -55,8 +55,19 @@ bool SpriteEntity::moveBy(int dx, int dy, Room& room) {
 		return false;
 	}
 
-	// Set new position
-	setPosition(newX, newY);
+	// Check for teleport
+	if (room.hasTeleportAt(newX, newY)) {
+		// Get teleport destination
+		CoordRoomXY teleportDest = room.getTeleportDestinationFrom(newX, newY);
+
+		// Set new room and new position
+		roomName = teleportDest.room;
+		setPosition(teleportDest.x, teleportDest.y);
+	}
+	else {
+		// Normal movement, set new position
+		setPosition(newX, newY);
+	}
 
 	// Movement successful
 	return true;

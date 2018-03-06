@@ -3,9 +3,11 @@
 
 #include <string>
 #include <nlohmann/json.hpp>
+#include <SFML/Graphics.hpp>
 
 #include "SpriteMatrix.hpp"
 #include "Tileset.hpp"
+#include "CoordUtils.hpp"
 
 using json = nlohmann::json;
 
@@ -36,12 +38,22 @@ public:
 	// Set tile at a specific position to a tile referenced by its ID
 	void setTile(int x, int y, int tileID);
 
+	// Adds a teleport (room coordinates -> destination room + coordinates).
+	// Overwrites existing teleports at the same position.
+	void addTeleport(CoordXY fromXY, CoordRoomXY toRoomXY);
+
 
 	/*******************************************************************
-	 * Collision detection
+	 * Collision detection and events
 	 *******************************************************************/
 	// Check if position is walkable
 	bool isTileWalkable(int x, int y);
+
+	// Checks for teleport at specific position
+	bool hasTeleportAt(int x, int y);
+
+	// Gets teleport destination
+	CoordRoomXY getTeleportDestinationFrom(int x, int y);
 
 
 	/*******************************************************************
@@ -65,6 +77,9 @@ private:
 public:
 	// Tiles: field of sprites
 	SpriteMatrix tileField;
+
+	// Teleports map: (fromX, fromY) -> (toRoom, toX, toY)
+	std::map<CoordXY, CoordRoomXY> teleports;
 };
 
 
