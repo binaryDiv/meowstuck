@@ -44,6 +44,19 @@ bool SpriteEntity::moveBy(int dx, int dy, Room& room) {
 	int newX = roomX + dx;
 	int newY = roomY + dy;
 
+	// Check for teleport (teleports may be out of bounds or on solid tiles, so check for them first)
+	if (room.hasTeleportAt(newX, newY)) {
+		// Get teleport destination
+		CoordRoomXY teleportDest = room.getTeleportDestinationFrom(newX, newY);
+
+		// Set new room and new position
+		roomName = teleportDest.room;
+		setPosition(teleportDest.x, teleportDest.y);
+
+		// Movement successful
+		return true;
+	}
+
 	// Check room boundaries
 	if (newX < 0 || newX >= room.getWidth() || newY < 0 || newY >= room.getHeight()) {
 		// New position is out of boundaries, movement not allowed
@@ -55,19 +68,8 @@ bool SpriteEntity::moveBy(int dx, int dy, Room& room) {
 		return false;
 	}
 
-	// Check for teleport
-	if (room.hasTeleportAt(newX, newY)) {
-		// Get teleport destination
-		CoordRoomXY teleportDest = room.getTeleportDestinationFrom(newX, newY);
-
-		// Set new room and new position
-		roomName = teleportDest.room;
-		setPosition(teleportDest.x, teleportDest.y);
-	}
-	else {
-		// Normal movement, set new position
-		setPosition(newX, newY);
-	}
+	// Set new position
+	setPosition(newX, newY);
 
 	// Movement successful
 	return true;
