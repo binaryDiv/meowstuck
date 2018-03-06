@@ -110,6 +110,12 @@ void Room::loadTileData(json& tileData) {
 					// Set tile at position
 					setTile(x, y, tileID);
 
+					// Set tile information (collision data)
+					// For now: All tiles from 01 to 7F are solid.
+					if (tileID >= 0x01 && tileID < 0x80) {
+						tileField.getTileInfo(x, y) = 1;
+					}
+
 					// Increment x (column)
 					x++;
 
