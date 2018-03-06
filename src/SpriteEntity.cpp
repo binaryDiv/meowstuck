@@ -51,7 +51,9 @@ bool SpriteEntity::moveBy(int dx, int dy, Room& room) {
 	}
 
 	// Check sprite collisions
-	// TODO
+	if (!room.isTileWalkable(newX, newY)) {
+		return false;
+	}
 
 	// Set new position
 	setPosition(newX, newY);

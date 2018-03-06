@@ -166,3 +166,13 @@ void Room::setTile(int x, int y, int tileID) {
 	roomTileset->setSpriteToTile(sprite, tileID);
 }
 
+
+/*******************************************************************
+ * Collision detection
+ *******************************************************************/
+// Check if position is walkable
+bool Room::isTileWalkable(int x, int y) {
+	// Check if tile is solid (i.e. not walkable)
+	return !tileField.getTileInfo(x, y).isSolid();
+}
+

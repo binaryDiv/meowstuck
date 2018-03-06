@@ -10,7 +10,8 @@
 SpriteMatrix::SpriteMatrix() :
 	width {0},
 	height {0},
-	sprites {nullptr}
+	sprites {nullptr},
+	tileInfo {nullptr}
 {}
 
 // Actual constructor
@@ -28,14 +29,24 @@ SpriteMatrix::SpriteMatrix(int width_, int height_) :
 			sprites[y*width + x].setPosition(GRID_SIZE*x, GRID_SIZE*y);
 		}
 	}
+
+	// Allocate array of ints for tile information (collision data etc.)
+	tileInfo = new TileInfo[width*height];
 }
 
 // Destructor
 SpriteMatrix::~SpriteMatrix() {
 	// Free resources
 	if (sprites != nullptr) {
+		// Sprite field
 		delete[] sprites;
 		sprites = nullptr;
+	}
+
+	if (tileInfo != nullptr) {
+		// TileInfo field
+		delete[] tileInfo;
+		tileInfo = nullptr;
 	}
 }
 
@@ -45,30 +56,41 @@ SpriteMatrix::SpriteMatrix(SpriteMatrix&& other) {
 	width = other.width;
 	height = other.height;
 	sprites = other.sprites;
+	tileInfo = other.tileInfo;
 
 	// Reset other object to default state
 	other.width = 0;
 	other.height = 0;
 	other.sprites = nullptr;
+	other.tileInfo = nullptr;
 }
 
 // Move assignment
 SpriteMatrix& SpriteMatrix::operator=(SpriteMatrix&& other) {
 	// Reset this object first, free resources
 	if (sprites != nullptr) {
+		// Sprite field
 		delete[] sprites;
 		sprites = nullptr;
+	}
+
+	if (tileInfo != nullptr) {
+		// TileInfo field
+		delete[] tileInfo;
+		tileInfo = nullptr;
 	}
 
 	// Steal data from other object
 	width = other.width;
 	height = other.height;
 	sprites = other.sprites;
+	tileInfo = other.tileInfo;
 
 	// Reset other object to default state
 	other.width = 0;
 	other.height = 0;
 	other.sprites = nullptr;
+	other.tileInfo = nullptr;
 
 	return *this;
 }
@@ -81,37 +103,11 @@ SpriteMatrix& SpriteMatrix::operator=(SpriteMatrix&& other) {
 // Get Sprite at a certain position. Throws std::out_of_range exception if
 // outside of matrix boundaries.
 sf::Sprite& SpriteMatrix::getSprite(int x, int y) {
-	// Transform x,y coordinates to array index
-	int index = y*width + x;
-
-	// Check if index is in array boundaries
-	if (index >= width*height) {
-		// TODO Test this
-		std::string e ("Coordinates" + std::to_string(x) + ", " + std::to_string(y)
-			+ " are out of SpriteMatrix boundaries");
-		throw std::out_of_range(e);
-	}
-
-	return sprites[index];
+	return sprites[coordsToIndex(x, y)];
 }
 
-// Set Sprite at a certain position in the matrix and update the Sprite's position
-// accordingly. Overwrite the existing Sprite (if any).
-// Throws std::out_of_range exception if outside of matrix boundaries.
-// TODO I don't think we need this function, see header file.
-//void SpriteMatrix::setSprite(int x, int y, sf::Sprite newSprite) {
-//	// Transform x,y coordinates to array index
-//	int index = y*width + x;
-//
-//	// Check if index is in array boundaries
-//	if (index >= width*height) {
-//		// TODO Test this
-//		std::string e ("Coordinates" + std::to_string(x) + ", " + std::to_string(y)
-//			+ " are out of SpriteMatrix boundaries");
-//		throw std::out_of_range(e);
-//	}
-//
-//	sprites[index] = newSprite;
-//}
-
+// Get tile information for a position (like collision data).
+TileInfo& SpriteMatrix::getTileInfo(int x, int y) {
+	return tileInfo[coordsToIndex(x, y)];
+}
 

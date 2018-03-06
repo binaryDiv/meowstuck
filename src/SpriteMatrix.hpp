@@ -3,6 +3,8 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "TileInfo.hpp"
+
 class SpriteMatrix {
 public:
 	/*******************************************************************
@@ -26,12 +28,27 @@ public:
 	// outside of matrix boundaries.
 	sf::Sprite& getSprite(int x, int y);
 
-	// Set Sprite at a certain position in the matrix and update the Sprite's position
-	// accordingly. Overwrite the existing Sprite (if any).
-	// Throws std::out_of_range exception if outside of matrix boundaries.
-	// TODO Is this function necessary or can we also set sprite via getSprite() = sprite?
-	// I don't think we need it.
-	//void setSprite(int x, int y, sf::Sprite newSprite);
+	// Get tile information for a position (like collision data).
+	TileInfo& getTileInfo(int x, int y);
+
+
+	/*******************************************************************
+	 * Helper functions
+	 *******************************************************************/
+	// Transforms x,y coordinates to array index, throws exception if out of bounds
+	int coordsToIndex(int x, int y) {
+		// Transform coordinates
+		int index = y*width + x;
+
+		// Check if index is in array boundaries
+		if (index >= width*height) {
+			// TODO Test this
+			throw std::out_of_range("Coordinates" + std::to_string(x) + ", " + std::to_string(y)
+				+ " are out of SpriteMatrix boundaries");
+		}
+
+		return index;
+	}
 
 
 	/*******************************************************************
@@ -48,6 +65,9 @@ public:
 private:
 	// Sprite field
 	sf::Sprite* sprites;
+
+	// A second field of integers to store tile information (like collision data)
+	TileInfo* tileInfo;
 };
 
 #endif /* SPRITEMATRIX_HPP_ */
