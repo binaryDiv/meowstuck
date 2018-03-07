@@ -11,7 +11,6 @@ public:
 	/*******************************************************************
 	 * Construction and destruction
 	 *******************************************************************/
-	GameEngine();
 	GameEngine(int screenWidth_, int screenHeight_);
 
 	// Forbid copy and move operations

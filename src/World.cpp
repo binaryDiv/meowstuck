@@ -83,7 +83,7 @@ void World::loadFromFile(const std::string& filename) {
 			playerEntity = SpriteEntity (playerData["startroom"], playerData["startx"], playerData["starty"]);
 
 			// Get tileset and tile index (simple JSON array)
-			Tileset& playerTileset = getTileset(playerData["sprite"][0]);
+			const Tileset& playerTileset = getTileset(playerData["sprite"][0]);
 			int playerTileIndex = playerData["sprite"][1];
 
 			// Set player sprite (JSON: array with tileset name and tile index)
@@ -118,7 +118,7 @@ Tileset& World::loadTileset(const std::string& tilesetName) {
 }
 
 // Gets a tileset by name (throws exception if tileset does not exist)
-Tileset& World::getTileset(const std::string& tilesetName) {
+const Tileset& World::getTileset(const std::string& tilesetName) const {
 	// Check if tileset exists (std::map::at will throw an exception otherwise)
 	try {
 		// Return reference to tileset
@@ -143,7 +143,7 @@ Room& World::loadRoom(const std::string& roomName, json& roomData) {
 	Room& room = rooms[roomName];
 
 	// Set room's tileset
-	Tileset& tileset = getTileset(roomData["tileset"]);
+	const Tileset& tileset = getTileset(roomData["tileset"]);
 	room.setTileset(&tileset);
 
 	// Parse tile data to sprites
@@ -155,7 +155,7 @@ Room& World::loadRoom(const std::string& roomName, json& roomData) {
 		CoordXY fromXY {teleportItem[0], teleportItem[1]};
 		CoordRoomXY destRXY {teleportItem[2], teleportItem[3], teleportItem[4]};
 
-		std::cout << "Adding teleport from " << fromXY.first << "," << fromXY.second << " to room "
+		std::cout << "Adding teleport from " << fromXY.x << "," << fromXY.y << " to room "
 			<< destRXY.room << " " << destRXY.x << "," << destRXY.y << std::endl;
 
 		// Add teleport to room

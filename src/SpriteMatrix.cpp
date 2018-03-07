@@ -1,7 +1,5 @@
 #include "SpriteMatrix.hpp"
 
-#include <stdexcept>
-
 /*******************************************************************
  * Construction and destruction
  *******************************************************************/
@@ -9,9 +7,7 @@
 // Default constructor
 SpriteMatrix::SpriteMatrix() :
 	width {0},
-	height {0},
-	sprites {nullptr},
-	tileInfo {nullptr}
+	height {0}
 {}
 
 // Actual constructor
@@ -21,7 +17,7 @@ SpriteMatrix::SpriteMatrix(int width_, int height_) :
 {
 	// Allocate array of sprites (simulate a 2D array by mapping x/y coordinates
 	// to y*width+x)
-	sprites = new sf::Sprite[width*height];
+	sprites.resize(width*height);
 
 	// Position sprites on grid
 	for (int y = 0; y < height; y++) {
@@ -31,68 +27,7 @@ SpriteMatrix::SpriteMatrix(int width_, int height_) :
 	}
 
 	// Allocate array of ints for tile information (collision data etc.)
-	tileInfo = new TileInfo[width*height];
-}
-
-// Destructor
-SpriteMatrix::~SpriteMatrix() {
-	// Free resources
-	if (sprites != nullptr) {
-		// Sprite field
-		delete[] sprites;
-		sprites = nullptr;
-	}
-
-	if (tileInfo != nullptr) {
-		// TileInfo field
-		delete[] tileInfo;
-		tileInfo = nullptr;
-	}
-}
-
-// Move constructor
-SpriteMatrix::SpriteMatrix(SpriteMatrix&& other) {
-	// Steal data from other object
-	width = other.width;
-	height = other.height;
-	sprites = other.sprites;
-	tileInfo = other.tileInfo;
-
-	// Reset other object to default state
-	other.width = 0;
-	other.height = 0;
-	other.sprites = nullptr;
-	other.tileInfo = nullptr;
-}
-
-// Move assignment
-SpriteMatrix& SpriteMatrix::operator=(SpriteMatrix&& other) {
-	// Reset this object first, free resources
-	if (sprites != nullptr) {
-		// Sprite field
-		delete[] sprites;
-		sprites = nullptr;
-	}
-
-	if (tileInfo != nullptr) {
-		// TileInfo field
-		delete[] tileInfo;
-		tileInfo = nullptr;
-	}
-
-	// Steal data from other object
-	width = other.width;
-	height = other.height;
-	sprites = other.sprites;
-	tileInfo = other.tileInfo;
-
-	// Reset other object to default state
-	other.width = 0;
-	other.height = 0;
-	other.sprites = nullptr;
-	other.tileInfo = nullptr;
-
-	return *this;
+	tileInfo.resize(width*height);
 }
 
 

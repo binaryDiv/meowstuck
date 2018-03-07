@@ -32,7 +32,7 @@ public:
 	Tileset& loadTileset(const std::string& tilesetName);
 
 	// Gets a tileset by name (throws exception if tileset does not exist)
-	Tileset& getTileset(const std::string& tilesetName);
+	const Tileset& getTileset(const std::string& tilesetName) const;
 
 	// Adds and loads a room (throws exception if room already exists)
 	Room& loadRoom(const std::string& roomName, json& roomData);

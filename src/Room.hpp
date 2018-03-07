@@ -33,7 +33,7 @@ public:
 	void loadTileData(json& tileData);
 
 	// Set tileset (as a pointer)
-	void setTileset(Tileset* tileset);
+	void setTileset(const Tileset* tileset);
 
 	// Set tile at a specific position to a tile referenced by its ID
 	void setTile(int x, int y, int tileID);
@@ -50,10 +50,10 @@ public:
 	bool isTileWalkable(int x, int y);
 
 	// Checks for teleport at specific position
-	bool hasTeleportAt(int x, int y);
+	bool hasTeleportAt(int x, int y) const;
 
 	// Gets teleport destination
-	CoordRoomXY getTeleportDestinationFrom(int x, int y);
+	CoordRoomXY getTeleportDestinationFrom(int x, int y) const;
 
 
 	/*******************************************************************
@@ -63,12 +63,12 @@ public:
 	std::string name;
 
 	// Room size
-	int getWidth();
-	int getHeight();
+	int getWidth() const;
+	int getHeight() const;
 
 private:
 	// Pointer to tileset
-	Tileset* roomTileset = nullptr;
+	const Tileset* roomTileset = nullptr;
 
 
 	/*******************************************************************
@@ -88,12 +88,12 @@ public:
  *******************************************************************/
 
 // Get room width, equal to tile field width
-inline int Room::getWidth() {
+inline int Room::getWidth() const {
 	return tileField.width;
 }
 
 // Get room height, equal to tile field height
-inline int Room::getHeight() {
+inline int Room::getHeight() const {
 	return tileField.height;
 }
 

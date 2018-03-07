@@ -3,21 +3,23 @@
 
 #include <string>
 
-// Coordinate pair (typedeffed std::pair<int,int>)
-typedef std::pair<int, int> CoordXY;
+// Coordinate pair
+struct CoordXY {
+	// Coordinates
+	int x;
+	int y;
+
+	friend bool operator<(const CoordXY& lhs, const CoordXY& rhs) {
+		return std::tie(lhs.x, lhs.y) < std::tie(rhs.x, rhs.y);
+	}
+};
 
 // Tupel of x and y coordinates and room name
-class CoordRoomXY {
-public:
-	CoordRoomXY() {};
-	CoordRoomXY(std::string room, int x, int y) :
-		room {room},
-		x {x},
-		y {y}
-	{}
-
+struct CoordRoomXY {
 	// Room name
 	std::string room;
+
+	// Coordinates in room
 	int x;
 	int y;
 };

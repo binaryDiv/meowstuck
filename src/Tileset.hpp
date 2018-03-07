@@ -30,7 +30,7 @@ public:
 	 * Tile management
 	 *******************************************************************/
 	// Sets a Sprite's texture and texture rect by index of tile in tileset
-	void setSpriteToTile(sf::Sprite& sprite, unsigned int tileIndex);
+	void setSpriteToTile(sf::Sprite& sprite, unsigned int tileIndex) const;
 
 
 	/*******************************************************************

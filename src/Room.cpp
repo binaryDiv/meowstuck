@@ -12,12 +12,10 @@ using json = nlohmann::json;
 Room::Room() {
 }
 
-Room::Room(const std::string& name, int width, int height) {
-	this->name = name;
-
-	// Create tile field
-	this->tileField = SpriteMatrix(width, height);
-}
+Room::Room(const std::string& name, int width, int height) :
+	name {name},
+	tileField {width, height}
+{}
 
 
 /*******************************************************************
@@ -72,7 +70,7 @@ void Room::loadTileData(json& tileData) {
 			int digit = hexDigitToInt(c);
 
 			// Check for generally not allowed characters
-			if (c != ' ' && digit < 0) {
+			if (!std::isspace(c) && digit < 0) {
 				// Invalid character
 				// TODO Custom exception?
 				std::string e ("Invalid character '" + std::to_string(c)
@@ -89,7 +87,7 @@ void Room::loadTileData(json& tileData) {
 
 			if (readState == 0) {
 				// Initial state: look for first hex digit
-				if (c == ' ') {
+				if (std::isspace(c)) {
 					// Skip spaces
 					continue;
 				}
@@ -125,7 +123,7 @@ void Room::loadTileData(json& tileData) {
 					// Set next state
 					readState = 2;
 				}
-				else if (c == ' ') {
+				else if (std::isspace(c)) {
 					// Space not allowed here
 					// TODO Custom exception?
 					std::string e ("Unexpected space after only one hex digit, in line "
@@ -135,7 +133,7 @@ void Room::loadTileData(json& tileData) {
 			}
 			else if (readState == 2) {
 				// Third state: found two hex digits, look for a space (or end of string)
-				if (c == ' ') {
+				if (std::isspace(c)) {
 					// Okay, go back to initial state
 					readState = 0;
 				}
@@ -159,7 +157,7 @@ void Room::loadTileData(json& tileData) {
 }
 
 // Set tileset (as a pointer)
-void Room::setTileset(Tileset* tileset) {
+void Room::setTileset(const Tileset* tileset) {
 	roomTileset = tileset;
 }
 
@@ -190,15 +188,14 @@ bool Room::isTileWalkable(int x, int y) {
 }
 
 // Checks for teleport at specific position
-bool Room::hasTeleportAt(int x, int y) {
+bool Room::hasTeleportAt(int x, int y) const {
 	// Check if key exists
-	return (teleports.count(CoordXY(x, y)) > 0);
+	return (teleports.count(CoordXY {x, y}) > 0);
 }
 
 // Gets teleport destination
-CoordRoomXY Room::getTeleportDestinationFrom(int x, int y) {
+CoordRoomXY Room::getTeleportDestinationFrom(int x, int y) const {
 	// Return destination
-	// TODO error if not existant?
-	return teleports[CoordXY(x, y)];
+	return teleports.at(CoordXY {x, y});
 }
 

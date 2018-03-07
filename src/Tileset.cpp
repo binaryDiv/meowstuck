@@ -34,7 +34,7 @@ void Tileset::loadTilesetFromFile(const std::string& filename) {
  *******************************************************************/
 
 // Sets a Sprite's texture and texture rect by index of tile in tileset
-void Tileset::setSpriteToTile(sf::Sprite& sprite, unsigned int tileIndex) {
+void Tileset::setSpriteToTile(sf::Sprite& sprite, unsigned int tileIndex) const {
 	// Set texture
 	sprite.setTexture(texture);
 	

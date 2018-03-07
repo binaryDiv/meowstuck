@@ -10,10 +10,6 @@
  * Construction and destruction
  *******************************************************************/
 
-// Default constructor
-GameEngine::GameEngine() {
-}
-
 // Actual constructor that creates the window
 GameEngine::GameEngine(int screenWidth_, int screenHeight_) :
 	screenWidth {screenWidth_},

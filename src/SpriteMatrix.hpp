@@ -12,13 +12,12 @@ public:
 	 *******************************************************************/
 	SpriteMatrix();
 	SpriteMatrix(int width_, int height_);
-	~SpriteMatrix();
 
 	// Forbid copy, but allow move operations
 	SpriteMatrix(const SpriteMatrix& other)            = delete;  // copy constructor
 	SpriteMatrix& operator=(const SpriteMatrix& other) = delete;  // copy assignment
-	SpriteMatrix(SpriteMatrix&& other);                           // move constructor (custom)
-	SpriteMatrix& operator=(SpriteMatrix&& other);                // move assignment (custom)
+	SpriteMatrix(SpriteMatrix&& other)                 = default; // move constructor
+	SpriteMatrix& operator=(SpriteMatrix&& other)      = default; // move assignment
 
 
 	/*******************************************************************
@@ -36,16 +35,16 @@ public:
 	 * Helper functions
 	 *******************************************************************/
 	// Transforms x,y coordinates to array index, throws exception if out of bounds
-	int coordsToIndex(int x, int y) {
-		// Transform coordinates
-		int index = y*width + x;
-
-		// Check if index is in array boundaries
-		if (index >= width*height) {
+	int coordsToIndex(int x, int y) const {
+		// Check if coordinates are in array boundaries
+		if (x < 0 || x >= width || y < 0 || y >= height) {
 			// TODO Test this
 			throw std::out_of_range("Coordinates" + std::to_string(x) + ", " + std::to_string(y)
 				+ " are out of SpriteMatrix boundaries");
 		}
+
+		// Transform coordinates
+		int index = y*width + x;
 
 		return index;
 	}
@@ -60,14 +59,14 @@ public:
 
 	// Tile grid size
 	// TODO make this variable somehow
-	const int GRID_SIZE = 32;
+	int GRID_SIZE = 32;
 
 private:
 	// Sprite field
-	sf::Sprite* sprites;
+	std::vector<sf::Sprite> sprites;
 
 	// A second field of integers to store tile information (like collision data)
-	TileInfo* tileInfo;
+	std::vector<TileInfo> tileInfo;
 };
 
 #endif /* SPRITEMATRIX_HPP_ */
