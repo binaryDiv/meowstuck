@@ -48,6 +48,20 @@ void GameEngine::loadFromFile(const std::string& filename) {
 void GameEngine::run() {
 	// TODO Play music
 
+	// TEST: fonts and text
+	sf::Font font;
+
+	if (!font.loadFromFile("res/Munro.ttf")) {
+		throw std::runtime_error("couldn't load font from file");
+	}
+
+	sf::Text text;
+	text.setFont(font);
+	text.setString("Meow meow meow");
+	text.setCharacterSize(24);
+	text.setFillColor(sf::Color::Red);
+	text.setPosition(10, 10);
+
 	// Game loop until window has been closed
 	while (window.isOpen()) {
 		// Process events
@@ -58,6 +72,9 @@ void GameEngine::run() {
 
 		// Draw frame
 		draw();
+
+		window.draw(text);
+		window.display();
 	}
 }
 // Update game (called every frame)
@@ -88,7 +105,8 @@ void GameEngine::draw() {
 	window.draw(playerEntity.getSprite());
 
 	// Update the window
-	window.display();
+	// XXX
+	//window.display();
 }
 
 
